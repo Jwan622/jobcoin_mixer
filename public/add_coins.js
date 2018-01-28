@@ -22,11 +22,33 @@ $(function(){
     </div>
   `
 
+  var mixedAddressHTML = `
+    <div class='mixed_address_html'>
+    </div>
+  `
+
+  var depositHTML = `
+    <div class='deposit_field'>
+      <div class='deposit_toAddress'
+        <label>Deposit To:</label>
+        <input type='text' value=""/>
+      </div>
+
+      <div class='deposit_amount'
+        <label>Deposit Amount:</label>
+        <input type='text' value=""/>
+      </div>
+
+      <input type='button' class='deposit_button' value='Deposit'/>
+    </div>
+  `
+
   addAddAddressButton()
   // there should be 1 field at intiial page load
   addAddAddressHTML()
   addInputField()
   addSubmitButton()
+  addMixedAddressHTML()
 
   // =========listeners============
   $(coinFormWrapper).on('click', '.remove_address_button', function(e) {
@@ -41,8 +63,17 @@ $(function(){
     submitForm(e)
   });
 
+  $('.add_address_section').on('keyup', '.address_field', function (e) {
+    if (e.keyCode == 13) {
+      e.preventDefault();
+      addInputField();
+      var next_inbox_index = $('.address_field').index(this) + 1;
+      $('.address_field input[type=text]')[next_inbox_index].focus()
+    }
+  });
 
-  // reuseable functions
+
+  // =============reuseable functions============
   function addInputField() {
     $('.add_address_section').append(inputHTML);
   }
@@ -55,12 +86,20 @@ $(function(){
     $(coinFormWrapper).append(addAddressHTML)
   }
 
-  function removeInputRow(e) {
+  function addMixedAddressHTML() {
+    $(coinFormWrapper).append(mixedAddressHTML)
+  }
+
+  function removeInputRow() {
     $(this).parent('div').remove();
   }
 
   function addSubmitButton() {
     $(coinFormWrapper).append(submitButton);
+  }
+
+  function addDepositField() {
+    $(coinFormWrapper).append(depositHTML)
   }
 
   function submitForm(e) {
@@ -74,7 +113,8 @@ $(function(){
       data: { 'addresses': addresses },
       dataType: "json",
       success: function(data) {
-        debugger;
+        $('.mixed_address_html').append(`This is your new mixed address: ${data['mixed_address']}`)
+        addDepositField()
       }
     });
   }
