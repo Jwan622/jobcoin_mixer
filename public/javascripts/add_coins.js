@@ -29,7 +29,12 @@ $(function(){
 
   var depositHTML = `
     <div class='deposit_field'>
-      <div class='deposit_toAddress'
+      <div class='deposit_from'
+        <label>Deposit From:</label>
+        <input type='text' value=''/>
+      </div>
+
+      <div class='deposit_to'
         <label>Deposit To:</label>
         <input type='text' value=""/>
       </div>
@@ -43,12 +48,18 @@ $(function(){
     </div>
   `
 
+  var responseFieldHTML = `
+    <div class='server_response'>
+    </div?
+  `
+
   addAddAddressButton()
   // there should be 1 field at intiial page load
   addAddAddressHTML()
   addInputField()
   addSubmitButton()
   addMixedAddressHTML()
+  addServerResponseField()
 
   // =========listeners============
   $(coinFormWrapper).on('click', '.remove_address_button', function(e) {
@@ -61,6 +72,10 @@ $(function(){
 
   $(coinFormWrapper).on('click', '.submit_button', function(e) {
     submitForm(e)
+  });
+
+  $(coinFormWrapper).on('click', '.deposit_button', function(e) {
+    depositCoin(e)
   });
 
   $('.add_address_section').on('keyup', '.address_field', function (e) {
@@ -90,6 +105,10 @@ $(function(){
     $(coinFormWrapper).append(mixedAddressHTML)
   }
 
+  function addServerResponseField() {
+    $(coinFormWrapper).append(responseFieldHTML)
+  }
+
   function removeInputRow() {
     $(this).parent('div').remove();
   }
@@ -102,8 +121,13 @@ $(function(){
     $(coinFormWrapper).append(depositHTML)
   }
 
+  function displayServerResponse(data) {
+    $('.server_response').html($.map(data, function(val, key) { return val; })[0])
+  }
+
   function submitForm(e) {
     e.preventDefault();
+
     var addresses = $('.add_address_section .add_address_field').map(function() { return $(this).val() }).get();
 
     $.ajax({
@@ -115,6 +139,24 @@ $(function(){
       success: function(data) {
         $('.mixed_address_html').append(`This is your new mixed address: ${data['mixed_address']}`)
         addDepositField()
+      }
+    });
+  }
+
+  function depositCoin(e) {
+    e.preventDefault();
+
+    var addressFrom = $('.deposit_from input').val()
+    var addressTo = $('.deposit_to input').val()
+    var depositAmount = $('.deposit_amount input').val()
+
+    $.ajax({
+      type: 'POST',
+      url: '/deposit',
+      data: { 'amount': depositAmount, 'address_from': addressFrom, 'address_to': addressTo },
+      dataType: "json",
+      success: function(data) {
+        displayServerResponse(data)
       }
     });
   }
