@@ -2,13 +2,14 @@ require 'openssl'
 
 class Mixer
   KEY = "WeCanTalkAboutBetterWaysToStoreThis"
-  # used to identify which addresses in the jobcoin transaction history are actually ours
-  IDENTIFIER = 'ThisTransactionIsOneOfOurs'
+
+  # used to identify which addresses in the jobcoin transaction history are
+  # actually ours vs global transactions that have nothing to do with us.
 
   def self.encrypt(addresses)
     # unsure what characters are valid inputs for addresses, but this pipe seems
     # unlikely so therefore a good choice for a delimiter. Prob need to clean it first
-    address_string = addresses.map{ |addr| addr.strip }.push(IDENTIFIER).join('|')
+    address_string = addresses.map{ |addr| addr.strip }.push(HouseDistributer::IDENTIFIER).join('|')
 
     # Since AES is considered as secure, I will use it as our algorithm.
     # AES comes with different key bit lengths: 128, 192, 256. The higher the
