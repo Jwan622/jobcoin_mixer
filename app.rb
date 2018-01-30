@@ -9,6 +9,7 @@ require './lib/house_distributer.rb'
 require './lib/mixer.rb'
 require './lib/mixer_worker.rb'
 require './lib/transaction_handler.rb'
+require './lib/accounting_service.rb'
 
 get '/' do
   erb :add_coins
@@ -16,7 +17,7 @@ end
 
 post '/mix_addresses' do
   new_addresses = params[:addresses].reject(&:empty?)
-  mixed_address = Mixer.encrypt(new_addresses)
+  mixed_address = Mixer.encrypt(new_addresses, HouseDistributer::IDENTIFIER)
   { mixed_address: mixed_address }.to_json
 end
 
