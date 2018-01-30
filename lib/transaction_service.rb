@@ -1,4 +1,4 @@
-class TransactionHandler
+class TransactionService
   attr_reader :complete_transactions,
     :identifier
 

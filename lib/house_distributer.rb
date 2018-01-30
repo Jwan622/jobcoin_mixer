@@ -3,7 +3,7 @@ class HouseDistributer < Distributer
   IDENTIFIER = 'ThisTransactionIsOneOfOurs'
 
   def make_transfers
-    to_aggregate_account(AGGREGATE_ACCOUNT)
-    to_original_addresses(AGGREGATE_ACCOUNT)
+    to_aggregate_account
+    to_original_addresses
   end
 end
