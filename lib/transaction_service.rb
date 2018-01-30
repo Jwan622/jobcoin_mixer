@@ -19,8 +19,7 @@ class TransactionService
   end
 
   def filter(toAddress)
-    # select only the transactions with a matching identifier (found in a
-    # decrypted toAddress)
+    # Supposed to match transactions from a single customer account to the mixed address
     complete_transactions.select do |transaction|
       Mixer.decrypt(transaction['toAddress']).pop == identifier
     end

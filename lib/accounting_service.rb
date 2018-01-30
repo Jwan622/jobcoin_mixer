@@ -13,7 +13,8 @@ class AccountingService
 
   def contributions
     contributions = JobcoinClient::Jobcoin.new.address_transactions(origin_account)['transactions'].select do |trans|
-      trans['toAddress'] == origin_account
+      # we don't want to include creation transactions. We only want transfers with a fromAddress
+      trans['toAddress'] == origin_account && !trans['fromAddress'].nil?
     end
 
     contributions.reduce(Hash.new(0)) do |balances, cont|

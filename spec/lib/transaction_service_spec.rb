@@ -12,7 +12,7 @@ RSpec.describe TransactionService do
     let(:processed_transactions) { DataHelper.processed_transactions }
 
     it 'returns aggregate amounts for every toAddress' do
-      expect(subject).to eq(processed_transactions)
+      expect(subject).to match_array(processed_transactions)
     end
   end
 

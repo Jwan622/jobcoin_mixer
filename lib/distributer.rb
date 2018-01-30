@@ -15,6 +15,8 @@ class Distributer
       # this will throw an error if we try to transfer an amount greater than
       # what's in the from_address or if we try to transfer 0.0. So, we will
       # only transfer an amount > 0
+      # Also, if someone tries to transfer from house to an encrypted address, the transfer should
+      # be returned back to the House Account here.
       JobcoinClient::Jobcoin.new.add_transaction(
         from_address,
         self.class::AGGREGATE_ACCOUNT,
