@@ -16,6 +16,13 @@ RSpec.describe AccountingService do
     }
   end
 
+  let(:liabilities) do
+    {
+      'address1' => 0.05,
+      'address2' => 0.05,
+    }
+  end
+
   before do
     allow_any_instance_of(JobcoinClient::Jobcoin)
     .to receive(:address_transactions) { DataHelper.address_transactions }
@@ -38,6 +45,14 @@ RSpec.describe AccountingService do
 
     it 'correctly returns the distributions made from the origin acccount to various addresses' do
       expect(subject).to eq(distributions)
+    end
+  end
+
+  describe '#liabilities' do
+    subject { service_instance.liabilities }
+
+    it 'correctly returns the liabilities or the distributions not yet paid' do
+      expect(subject).to eq(liabilities)
     end
   end
 end

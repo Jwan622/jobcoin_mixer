@@ -8,7 +8,7 @@ class AccountingService
   def liabilities
     contributions.merge(distributions) do |key, con, dis|
       con - dis
-    end.select { |addr, amount| amount != 0.0 }
+    end.select { |addr, amount| amount != 0.0 && contributions.keys.include?(addr) }
   end
 
   def contributions

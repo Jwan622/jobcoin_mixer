@@ -19,7 +19,7 @@ class DataHelper
       },
       {
         "toAddress"=>"52c7ec313568730cbadff4cb7b59dd5696d9917393f07ba92d74a6b3d1cc93a4057dd6ab03ddde6d938180ff",
-        "amount"=>8.059999999999999
+        "amount"=>8.06
       },
       {
         "toAddress"=>"52c7ec313568730ebaeaf8c67a68dc44295b5161184de55c420e8db2c4e07dbf5bad21",
