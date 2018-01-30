@@ -13,6 +13,15 @@
 
 In the above code, the `TransactionHandler` polls the Jobcoin history for transactions that sent to addresses created by the Mixer. These addresses can then be used
 
+```ruby
+TransactionHandler.new(transaction_history, HouseDistributer::IDENTIFIER).process
+```
+
+Composition helps here to make this TransactionHandler more reusable. Provide it a
+set of transactions and an identifer and the handler will return only addresses
+involving the identifier.
+
+
 ####Distributer logic
 
 Issues:

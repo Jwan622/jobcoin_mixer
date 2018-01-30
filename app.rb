@@ -8,7 +8,7 @@ require './lib/distributer.rb'
 require './lib/house_distributer.rb'
 require './lib/mixer.rb'
 require './lib/mixer_worker.rb'
-require './lib/transaction_handler.rb'
+require './lib/transaction_service.rb'
 require './lib/accounting_service.rb'
 
 get '/' do
@@ -32,6 +32,6 @@ end
 
 after '/deposit' do
   # should be done asynchronously since that transaction history ledger is only
-  # going to get bigger.
+  # going to get bigger + none of the following work needs to be seen by the customer
   MixerWorker.perform_async
 end

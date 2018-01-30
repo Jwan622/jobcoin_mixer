@@ -34,8 +34,8 @@ class AccountingService
     end
 
     distributions.reduce(Hash.new(0)) do |balances, dist|
-      original_address = dist['toAddress']
-      balances[original_address] += dist['amount'].to_f
+      distribution_address = dist['toAddress']
+      balances[distribution_address] += dist['amount'].to_f
       balances
     end
   end
