@@ -3,14 +3,13 @@ require 'jobcoin_client'
 require 'sinatra'
 require 'pry' if development?
 
-# lib
-require './lib/distributer.rb'
-require './lib/house_distributer.rb'
-require './lib/mixer.rb'
-require './lib/mixer_worker.rb'
-require './lib/transaction_service.rb'
-require './lib/accounting_service.rb'
+# require lib
+$:.unshift(File.expand_path('../jobcoin_mixer/lib'))
+Dir.glob('lib/**/*.rb')
+.tap { require 'distributer.rb'}
+.each { |f| require_relative f }
 
+# routes
 get '/' do
   erb :add_coins
 end

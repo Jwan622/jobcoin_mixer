@@ -8,12 +8,13 @@ class AccountingService
   def liabilities
     contributions.merge(distributions) do |key, con, dis|
       con - dis
-    end.select { |addr, amount| amount != 0.0 }
+    end.select { |addr, amount| amount != 0.0 && contributions.keys.include?(addr) }
   end
 
   def contributions
     contributions = JobcoinClient::Jobcoin.new.address_transactions(origin_account)['transactions'].select do |trans|
-      trans['toAddress'] == origin_account
+      # we don't want to include creation transactions. We only want transfers with a fromAddress
+      trans['toAddress'] == origin_account && !trans['fromAddress'].nil?
     end
 
     contributions.reduce(Hash.new(0)) do |balances, cont|
