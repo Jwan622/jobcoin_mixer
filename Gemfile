@@ -6,4 +6,5 @@ gem 'jobcoin_client', '~> 1.0.3'
 group :development, :test do
   gem 'pry'
   gem 'shotgun'
+  gem 'rspec'
 end
