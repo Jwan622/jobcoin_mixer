@@ -5,6 +5,7 @@ require 'pry' if development?
 
 # lib
 require './lib/distributer.rb'
+require './lib/house_distributer.rb'
 require './lib/mixer.rb'
 require './lib/mixer_worker.rb'
 require './lib/transaction_handler.rb'

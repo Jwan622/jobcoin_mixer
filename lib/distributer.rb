@@ -1,17 +1,11 @@
 class Distributer
-  HOUSE_ACCOUNT = 'thisIsTheHouseAccount'
-  attr_reader :transactions
+  attr_reader :distributer
 
-  def initialize(transactions)
-    @transactions = transactions
+  def initialize(distributer)
+    @distributer = distributer
   end
 
   def make_transfers
-    to_house_account
-    to_original_addresses
-  end
-
-  def to_house_account
-    
+    distributer.make_transfers
   end
 end
