@@ -1,6 +1,7 @@
 # require third party libraries
 require 'pry'
 require 'jobcoin_client'
+require 'bigdecimal'
 
 # require files
 require 'helpers/data_helper.rb'
