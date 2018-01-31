@@ -18,6 +18,7 @@ class Distributor
       # only transfer an amount > 0
       # Also, if someone tries to transfer from house to an encrypted address, the transfer should
       # be returned back to the House Account here.
+
       client.add_transaction(
         from_address,
         self.class::AGGREGATE_ACCOUNT,
