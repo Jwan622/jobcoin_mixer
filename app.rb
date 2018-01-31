@@ -27,11 +27,12 @@ post '/deposit' do
   addressFrom = params[:address_from]
 
   res = JobcoinClient::Jobcoin.new.add_transaction(addressFrom, addressTo, amount)
-  res.to_json
-end
 
-after '/deposit' do
-  # should be done asynchronously since that transaction history ledger is only
-  # going to get bigger + none of the following work needs to be seen by the customer
-  MixerWorker.perform_async
+  if res['status'] == 'OK'
+    transfers = MixerWorker.perform_async
+    res['transfers'] = transfers.map { |addr, amt| { to: addr, amount: amt } }
+    res.to_json
+  else
+    res.to_json
+  end
 end

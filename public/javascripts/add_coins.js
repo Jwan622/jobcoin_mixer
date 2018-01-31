@@ -12,9 +12,9 @@ $(function(){
       <input type='button' class='add_address_button' value='Add Another Address'/>
     </div>
   `
-  var submitButton = `
-    <div class='submit_address'>
-      <input type='button' class='submit_button' value='Mix Addresses'/>
+  var mixButton = `
+    <div class='mix_address_button'>
+      <input type='button' class='mix_address_button' value='Mix Addresses'/>
     </div>
   `
   var addAddressHTML = `
@@ -56,7 +56,7 @@ $(function(){
   addAddAddressButton()
   addAddAddressField()
   addInputField()
-  addSubmitButton()
+  addMixButton()
   addResponseField()
   addMixedAddressField()
 
@@ -71,8 +71,8 @@ $(function(){
     addInputField()
   });
 
-  $(coinFormWrapper).on('click', '.submit_button', function(e) {
-    submitForm(e)
+  $(coinFormWrapper).on('click', '.mix_address_button', function(e) {
+    mixAddresses(e)
   });
 
   $(coinFormWrapper).on('click', '.deposit_button', function(e) {
@@ -123,20 +123,26 @@ $(function(){
     $(this).parent('div').remove();
   }
 
-  function addSubmitButton() {
-    $(coinFormWrapper).append(submitButton);
+  function addMixButton() {
+    $(coinFormWrapper).append(mixButton);
   }
 
   function addDepositField() {
     $(coinFormWrapper).append(depositHTML)
   }
 
-  function displayDepositComplete(data) {
+  function displayDepositMessage(data) {
+    let message;
+
     clearResponseHTML()
-    if ($.map(data, function(val, key) { return val; })[0] == 'OK') {
-      var message = 'DEPOSIT COMPLETE!'
+
+    if (data['status'] == 'OK') {
+      message = 'Transaction Successful! You transferred ' +
+        data.transfers.map(t => t.amount + " to " + t.to).join(", ");
+    } else if (Object.keys(data)[0] == 'error') {
+      message = data['error']
     } else {
-      var message = 'Something went wrong. Try again?'
+      message = 'Something went wrong. Try again?'
     }
 
     $('.response_field').html(message)
@@ -147,7 +153,7 @@ $(function(){
     $('.mixed_address_html').html(`This is your new mixed address: ${data['mixed_address']}`)
   }
 
-  function submitForm(e) {
+  function mixAddresses(e) {
     e.preventDefault();
 
     clearResponseHTML()
@@ -191,7 +197,7 @@ $(function(){
       data: { 'amount': depositAmount, 'address_from': addressFrom, 'address_to': addressTo },
       dataType: "json",
       success: function(data) {
-        displayDepositComplete(data)
+        displayDepositMessage(data)
       }
     });
   }
