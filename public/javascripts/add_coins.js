@@ -131,9 +131,15 @@ $(function(){
     $(coinFormWrapper).append(depositHTML)
   }
 
-  function displayResponse(data) {
+  function displayDepositComplete(data) {
     clearResponseHTML()
-    $('.response_field').html($.map(data, function(val, key) { return val; })[0])
+    if ($.map(data, function(val, key) { return val; })[0] == 'OK') {
+      var message = 'DEPOSIT COMPLETE!'
+    } else {
+      var message = 'Something went wrong. Try again?'
+    }
+    debugger;
+    $('.response_field').html(message)
   }
 
   function displayMixedAddress(data) {
@@ -185,7 +191,7 @@ $(function(){
       data: { 'amount': depositAmount, 'address_from': addressFrom, 'address_to': addressTo },
       dataType: "json",
       success: function(data) {
-        displayResponse(data)
+        displayDepositComplete(data)
       }
     });
   }
