@@ -7,7 +7,7 @@ require 'bigdecimal'
 require 'helpers/data_helper.rb'
 # get rid of the '.' and '..' directories first.
 Dir.entries('lib').select {|f| !File.directory? f}
-.tap { require 'distributer.rb' }
+.tap { require 'distributor.rb' }
 .each { |path| require path }
 
 ENV['RACK_ENV'] = 'test'

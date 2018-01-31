@@ -7,7 +7,7 @@ require 'bigdecimal'
 # require lib
 $:.unshift(File.expand_path('../jobcoin_mixer/lib'))
 Dir.glob('lib/**/*.rb')
-.tap { require 'distributer.rb'}
+.tap { require 'distributor.rb'}
 .each { |f| require_relative f }
 
 # routes
@@ -17,7 +17,7 @@ end
 
 post '/mix_addresses' do
   new_addresses = params[:addresses].reject(&:empty?)
-  mixed_address = Mixer.encrypt(new_addresses, HouseDistributer::IDENTIFIER)
+  mixed_address = Mixer.encrypt(new_addresses, HouseDistributor::IDENTIFIER)
   { mixed_address: mixed_address }.to_json
 end
 

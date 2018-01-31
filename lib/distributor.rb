@@ -1,4 +1,4 @@
-class Distributer
+class Distributor
   attr_reader :transactions, :client
 
   def initialize(transactions)
