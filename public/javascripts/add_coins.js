@@ -57,8 +57,8 @@ $(function(){
   addAddAddressField()
   addInputField()
   addSubmitButton()
-  addMixedAddressField()
   addResponseField()
+  addMixedAddressField()
 
 
   // =========listeners============
