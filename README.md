@@ -8,7 +8,8 @@
    1. [Jobcoin Client](#jobcoin-client)
    2. [TransactionHandler](#transaction-handler)
    3. [Distributors](#distributors)
-   4. [Edge Cases](#edge-cases)
+   4. [Edge Case](#edge-case)
+   5. [Room for Improvement](#room-for-improvement)
 4. [Image Choice](#image-choice)
 
 # Getting Started
