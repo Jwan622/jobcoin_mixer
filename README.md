@@ -216,5 +216,35 @@ Immediately after finishing the project, I felt a few areas could be improved if
 
 2. The `TransactionService` is also pretty coupled with the current transfer logic. It only filters by the `toAddress`. Eh, this is probably fine actually. I don't really see a need for filtering by other criteria in the foreseeable future of mixing addresses...I think?
 
+3. I should make the `MixerWorker` job asynchronous. Since the worker distribution is idempotent, I don't see this work can't just happen in the background and just give the client a success message if the deposit to the
+mixed account succeeds. If there is a failure on our end, we can retry the work after fixing the data, knowing that it's safe and
+will succeed eventually.
+
+4. I found a bug when the house account has less money than the liabilities. For example, in this scenario:
+
+  ```
+  liabilities = { a: 1, b:2, c:3 }
+  >house_account_balance> = 5
+  ```
+
+  As written, our distributor would pay `a` and `b`, but `c` would remain unpaid until the next round of contributions. This would lead to the owner of these addresses only being paid for some of his/her money. This issue would carryover to the next customer until the HouseAccount has sufficient funds to cover all liabilities.
+
+  This shouldn't ever happen... but it could. I think because
+  of this bug and the edge case described above, some transfer checker needs to be implemented before distribution to ensure that:
+  1. The distributions to the individual accounts match the transfers from
+  the individual accounts before sending them to avoid the edge case.
+  2. There are sufficient funds. If not, borrow Jobcoin perhaps.
+
+  The proposed `Checker` class could go right here:
+
+  ```ruby
+  def to_original_addresses
+    liabilities = AccountingService.new(self.class::AGGREGATE_ACCOUNT).liabilities
+    # Proposed Checker Class could go here!
+    liabilities.each do |addr, amount|
+      client.add_transaction(self.class::AGGREGATE_ACCOUNT, addr, amount)
+    end
+  ```
+
 # Image Choice
 This multi-layered structure in the Yo Dawg meme makes it reminiscent of the “strange loops” described in Douglas Hofstadter’s Gödel, Escher, Bach. Strange loops occur when, by moving only upwards or downwards through a system, one finds oneself back where one started... kind of like what goes on in this mixer system. So, the Xhibit meme was the one clear choice.
