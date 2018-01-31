@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": "AAMA,kBAAmB,CACjB,gBAAgB,CAJZ,IAAI,CAOV,eAAgB,CACd,gBAAgB,CAPb,OAAO,CAUZ,mBAAoB,CAClB,gBAAgB,CAbX,OAAO",
+"sources": ["sass/add_coins.scss"],
+"names": [],
+"file": "add_coins.css"
+}
