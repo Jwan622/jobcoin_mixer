@@ -1,4 +1,4 @@
-class HouseDistributer < Distributer
+class HouseDistributor < Distributor
   AGGREGATE_ACCOUNT = 'thisIsTheHouseAccount'
   IDENTIFIER = 'ThisTransactionIsOneOfOurs'
 

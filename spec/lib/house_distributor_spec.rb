@@ -1,7 +1,7 @@
 require 'spec_helper'
 
-RSpec.describe HouseDistributer do
-  let(:distributer_instance) { described_class.new(processed_transactions) }
+RSpec.describe HouseDistributor do
+  let(:distributor_instance) { described_class.new(processed_transactions) }
   let(:processed_transactions) { DataHelper.processed_transactions }
   let(:jobcoin_client) { instance_double(JobcoinClient::Jobcoin) }
 
@@ -20,7 +20,7 @@ RSpec.describe HouseDistributer do
   end
 
   describe '#make_transfers' do
-    subject { distributer_instance.make_transfers }
+    subject { distributor_instance.make_transfers }
 
     it 'makes the transfer to the house account only if there is a remaining balance' do
       expect(jobcoin_client).not_to receive(:add_transaction)
