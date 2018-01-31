@@ -48,18 +48,18 @@ $(function(){
     </div>
   `
 
-  var responseFieldHTML = `
-    <div class='server_response'>
+  var ResponseHTML = `
+    <div class='response_field'>
     </div?
   `
 
   addAddAddressButton()
-  // there should be 1 field at intiial page load
-  addAddAddressHTML()
+  addAddAddressField()
   addInputField()
   addSubmitButton()
-  addMixedAddressHTML()
-  addServerResponseField()
+  addMixedAddressField()
+  addResponseField()
+
 
   // =========listeners============
   $(coinFormWrapper).on('click', '.remove_address_button', function(e) {
@@ -67,6 +67,7 @@ $(function(){
   });
 
   $(coinFormWrapper).on('click', '.add_address_button', function(e) {
+    e.preventDefault();
     addInputField()
   });
 
@@ -81,32 +82,41 @@ $(function(){
   $('.add_address_section').on('keyup', '.address_field', function (e) {
     if (e.keyCode == 13) {
       e.preventDefault();
-      addInputField();
-      var next_inbox_index = $('.address_field').index(this) + 1;
-      $('.address_field input[type=text]')[next_inbox_index].focus()
+      addInputField()
     }
   });
 
 
   // =============reuseable functions============
   function addInputField() {
-    $('.add_address_section').append(inputHTML);
+    clearResponseHTML()
+    if ($(".add_address_section > .address_field").find('input[type=text]:empty').filter(function () { return this.value.length == 0}).length > 0) {
+      $('.response_field').html("You already have an empty address box. Fill that in first.")
+      $(".add_address_section > .address_field").find('input[type=text]:empty').filter(function () { return this.value.length == 0}).focus()
+    } else {
+      $('.add_address_section').append(inputHTML);
+      $(".add_address_section > .address_field").find('input[type=text]:empty').filter(function () { return this.value.length == 0}).focus()
+    }
   }
 
   function addAddAddressButton() {
     $(coinFormWrapper).append(addAddressButton);
   }
 
-  function addAddAddressHTML() {
+  function addAddAddressField() {
     $(coinFormWrapper).append(addAddressHTML)
   }
 
-  function addMixedAddressHTML() {
+  function addMixedAddressField() {
     $(coinFormWrapper).append(mixedAddressHTML)
   }
 
-  function addServerResponseField() {
-    $(coinFormWrapper).append(responseFieldHTML)
+  function addResponseField() {
+    $(coinFormWrapper).append(ResponseHTML)
+  }
+
+  function clearResponseHTML() {
+    $('.response_field').empty();
   }
 
   function removeInputRow() {
@@ -121,12 +131,24 @@ $(function(){
     $(coinFormWrapper).append(depositHTML)
   }
 
-  function displayServerResponse(data) {
-    $('.server_response').html($.map(data, function(val, key) { return val; })[0])
+  function displayResponse(data) {
+    clearResponseHTML()
+    $('.response_field').html($.map(data, function(val, key) { return val; })[0])
+  }
+
+  function displayMixedAddress(data) {
+    $('.mixed_address_html').empty()
+    $('.mixed_address_html').html(`This is your new mixed address: ${data['mixed_address']}`)
   }
 
   function submitForm(e) {
     e.preventDefault();
+
+    clearResponseHTML()
+
+    if ($(".add_address_section > .address_field").find('input[type=text]:empty').filter(function () { return this.value.length == 0}).length > 0) {
+      $(".add_address_section > .address_field").last().remove()
+    }
 
     var addresses = $('.add_address_section .add_address_field').map(function() { return $(this).val() }).get();
 
@@ -137,8 +159,15 @@ $(function(){
       data: { 'addresses': addresses },
       dataType: "json",
       success: function(data) {
-        $('.mixed_address_html').append(`This is your new mixed address: ${data['mixed_address']}`)
-        addDepositField()
+        displayMixedAddress(data)
+
+        // only need one of those deposit forms
+        if ($(".deposit_field").length == 0) {
+          addDepositField()
+        }
+
+        // auto set the deposit_to field for convenience
+        $('.deposit_to input').val(data["mixed_address"])
       }
     });
   }
@@ -156,7 +185,7 @@ $(function(){
       data: { 'amount': depositAmount, 'address_from': addressFrom, 'address_to': addressTo },
       dataType: "json",
       success: function(data) {
-        displayServerResponse(data)
+        displayResponse(data)
       }
     });
   }
