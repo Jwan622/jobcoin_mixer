@@ -138,7 +138,7 @@ $(function(){
     } else {
       var message = 'Something went wrong. Try again?'
     }
-    debugger;
+
     $('.response_field').html(message)
   }
 

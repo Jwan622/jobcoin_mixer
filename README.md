@@ -39,6 +39,15 @@ Issues:
 - The house account has all the aggregated jobcoins. The issue here is determining which accounts to transfer jobcoins to while also avoiding duplicate
 transfers.
 
+#### Edge Cases
+1. Say you mix 3 addresses into an address, let's call it AddressB. IF you then deposit an amount of
+JobCoin into AddressB that does not divide evenly 3 ways, you wind up with more coins. For example,
+Say you mix 3 addresses and then try to transfer 2.3 JobCoin to the mixed address. Each of the
+three addresses will receive 0.7666666666666667 JobCoin which, when multiple by 3,
+comes out to more than 2.3. This is a bug that should be fixed since we can create infinite
+JobCoin this way.
+
+
 
 #### Image Choice
 - Xhibit meme was the clearest choice I had all project.
