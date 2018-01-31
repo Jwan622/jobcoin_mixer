@@ -13,7 +13,7 @@ class TransactionService
     .map do |to, transactions|
       {
         'toAddress' => to,
-        'amount' => transactions.inject(0) {|memo, trans| memo += trans['amount'].to_f}
+        'amount' => transactions.inject(BigDecimal.new(0)) {|memo, trans| memo += BigDecimal.new(trans['amount']).to_f}
       }
     end
   end

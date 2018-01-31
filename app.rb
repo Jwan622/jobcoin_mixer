@@ -2,6 +2,7 @@
 require 'jobcoin_client'
 require 'sinatra'
 require 'pry' if development?
+require 'bigdecimal'
 
 # require lib
 $:.unshift(File.expand_path('../jobcoin_mixer/lib'))
