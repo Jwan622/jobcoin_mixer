@@ -181,7 +181,7 @@ Some check before the final transfers should be made that compares the total of 
 
 Immediately after finishing the project, I felt a few areas could be improved if I had more time:
 
-1. I wrote the `Distributors` with the Strategy pattern in mind, but I feel like my attempt at making the distributor uncoupled from the logic of Mixed => House => original addresses transfers is not well done. For example:
+1. I wrote the `Distributors` with the Template pattern in mind, but I feel like my attempt at making the distributor uncoupled from the logic of Mixed => House => original addresses transfers is not well done. For example:
 
   ```ruby
   # Inside the Distributor class
