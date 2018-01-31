@@ -28,7 +28,7 @@ class Distributor
 
   def to_original_addresses
     liabilities = AccountingService.new(self.class::AGGREGATE_ACCOUNT).liabilities
-
+    # Proposed Checker Class could go here, as described in the Readme.
     # make distributions from AGGREGATE_ACCOUNT to original accounts
     liabilities.each do |addr, amount|
       client.add_transaction(self.class::AGGREGATE_ACCOUNT, addr, amount)
