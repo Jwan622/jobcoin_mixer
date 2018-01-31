@@ -26,24 +26,24 @@ RSpec.describe HouseDistributor do
       expect(jobcoin_client).not_to receive(:add_transaction)
       .with(
         "52c7ec313568730cbaeaf8c67a68dc4495fb1cafda7d0571f4a5d3faf27753fc0e3039",
-        'thisIsTheHouseAccount',
+        'thisIsTheHouseAccount1',
         0.0
       )
       expect(jobcoin_client).not_to receive(:add_transaction)
       .with(
         "52c7ec313568730cbadff4cb7b59dd5696d9917393f07ba92d74a6b3d1cc93a4057dd6ab03ddde6d938180ff",
-        'thisIsTheHouseAccount',
+        'thisIsTheHouseAccount1',
         0.0
       )
       expect(jobcoin_client).to receive(:add_transaction)
       .with(
         "52c7ec313568730ebaeaf8c67a68dc44295b5161184de55c420e8db2c4e07dbf5bad21",
-        'thisIsTheHouseAccount',
+        'thisIsTheHouseAccount1',
         1.0
       )
       expect(jobcoin_client).to receive(:add_transaction)
       .with(
-        'thisIsTheHouseAccount',
+        'thisIsTheHouseAccount1',
         'address3',
         1.0
       )
