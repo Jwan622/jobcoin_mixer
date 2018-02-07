@@ -17,12 +17,16 @@ class Mixer
     # to encrypt mode.
     cipher = OpenSSL::Cipher::Cipher.new('AES-256-CFB').encrypt
 
-    # This line turns our KEY into a 256 bit hash which we can then use
-    # as a key for our AES encryption. AES requires a 256 bit key.
-    key = Digest::SHA1.hexdigest(KEY)
+    # The initialization vector should be a random number.
+    # After generation it can be transmitted openly and does not need to be kept
+    # privately. The algorithm needs an initialization vector (IV) and the key
+    # for its encryption and decryption process.
+    # iv = cipher.random_iv
 
-    # This line also sets our IV and key set. Now we can encrypt some data.
-    cipher.key = key
+    # This line turns our KEY into a 256 bit hash which we can then use
+    # as a key for our AES encryption. AES requires a 256 bit key which will be
+    # 256/8 = 32 characters long
+    cipher.key = Digest::SHA256.digest(KEY)
 
     # cipher.update takes a message and encrypts it using the IV and key given
     # before. cipher.final adds the final part of the cipher text to the end of
@@ -38,10 +42,7 @@ class Mixer
 
     # This line turns our KEY into a 256 bit hash which we can then use as a
     # key for our AES decryption.
-    key = Digest::SHA1.hexdigest(KEY)
-
-    # This line also sets our IV and key set. Now we can encrypt some data.
-    cipher.key = key
+    cipher.key = Digest::SHA256.digest(KEY)
 
     s = [address_string].pack("H*").unpack("C*").pack("c*")
     (cipher.update(s) + cipher.final).split('|')
