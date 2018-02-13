@@ -8,7 +8,7 @@ class TransactionService
   end
 
   def process
-    filter(identifier)
+    filter
     .group_by{ |transaction| transaction['toAddress'] }
     .map do |to, transactions|
       {
@@ -18,10 +18,10 @@ class TransactionService
     end
   end
 
-  def filter(toAddress)
+  def filter
     # Supposed to match transactions from a single customer account to the mixed address
     complete_transactions.select do |transaction|
-      Mixer.decrypt(transaction['toAddress']).pop == identifier
+      Mixer.decrypt(transaction['toAddress']).pop == identifier if Mixer.decrypt(transaction['toAddress'])
     end
   end
 end

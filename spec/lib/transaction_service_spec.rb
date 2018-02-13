@@ -17,7 +17,7 @@ RSpec.describe TransactionService do
   end
 
   describe '#filter' do
-    subject { service_instance.filter(identifier) }
+    subject { service_instance.filter }
 
     let(:global_transactions) { DataHelper.global_transactions }
     let(:identified_transactions) { DataHelper.identified_transactions }

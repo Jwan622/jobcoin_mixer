@@ -3,9 +3,7 @@ class DataHelper
   AGGREGATE_ACCOUNT = 'thisIsTheHouseAccount'
 
   def self.transaction_history
-    address1
-    .concat(address1_and_address2)
-    .concat(address3)
+    addressAandBTransactions
     .concat(contributions)
     .concat(distributions)
     .concat(global_transactions)
@@ -14,45 +12,23 @@ class DataHelper
   def self.processed_transactions
     [
       {
-        "toAddress"=>"52c7ec313568730cbaeaf8c67a68dc4495fb1cafda7d0571f4a5d3faf27753fc0e3039",
-        "amount"=>36.0
-      },
-      {
-        "toAddress"=>"52c7ec313568730cbadff4cb7b59dd5696d9917393f07ba92d74a6b3d1cc93a4057dd6ab03ddde6d938180ff",
+        "toAddress"=>"eyJtZXNzYWdlIjoiYmFkNzkyZTY0N2JmNDZjOTc2NDc5NWY5NTIzMTYyYTQxZjhiYTllYTQ4Yjk3ODhhYzVjN2MwM2U5NDMyY2IwZDBlMmNkM2ZmOGU5NWFiNjJkZWMwNmFjMCIsImlkZW50aWZpZXIiOiJUaGlzVHJhbnNhY3Rpb25Jc09uZU9mT3VycyIsIml2IjoiMDllYzYyMDAyZTlmN2UyYTgwMmNiZWIxYjk4YTEzZjgifQ==",
         "amount"=>8.06
-      },
-      {
-        "toAddress"=>"52c7ec313568730ebaeaf8c67a68dc44295b5161184de55c420e8db2c4e07dbf5bad21",
-        "amount"=>1.0
       }
     ]
   end
 
-  def self.address1
+  def self.addressAandBTransactions
     [
-      {"timestamp"=>"2018-01-18T16:53:16.747Z", "toAddress"=>"52c7ec313568730cbaeaf8c67a68dc4495fb1cafda7d0571f4a5d3faf27753fc0e3039", "amount"=>"10"},
-      {"timestamp"=>"2018-01-18T16:53:27.572Z", "fromAddress"=>"Alice", "toAddress"=>"52c7ec313568730cbaeaf8c67a68dc4495fb1cafda7d0571f4a5d3faf27753fc0e3039", "amount"=>"12"},
-      {"timestamp"=>"2018-01-18T16:53:38.853Z", "fromAddress"=>"Bob", "toAddress"=>"52c7ec313568730cbaeaf8c67a68dc4495fb1cafda7d0571f4a5d3faf27753fc0e3039", "amount"=>"14"}
-    ]
-  end
-
-  def self.address1_and_address2
-    [
-      {"timestamp"=>"2018-01-18T02:57:34.959Z", "toAddress"=>"52c7ec313568730cbadff4cb7b59dd5696d9917393f07ba92d74a6b3d1cc93a4057dd6ab03ddde6d938180ff", "amount"=>"2"},
-      {"timestamp"=>"2018-01-18T02:57:35.016Z", "fromAddress"=>"Alice", "toAddress"=>"52c7ec313568730cbadff4cb7b59dd5696d9917393f07ba92d74a6b3d1cc93a4057dd6ab03ddde6d938180ff", "amount"=>"4"}
-    ]
-  end
-
-  def self.address3
-    [
-      {"timestamp"=>"2018-01-23T23:35:25.464Z", "fromAddress"=>"Alice", "toAddress"=>"52c7ec313568730ebaeaf8c67a68dc44295b5161184de55c420e8db2c4e07dbf5bad21", "amount"=>"1"}
+      {"timestamp"=>"2018-01-18T02:57:34.959Z", "toAddress"=>addrAandB, "amount"=>"2"},
+      {"timestamp"=>"2018-01-18T02:57:35.016Z", "fromAddress"=>"Alice", "toAddress"=>addrAandB, "amount"=>"4"}
     ]
   end
 
   def self.contributions
     [
-      {"timestamp"=>"2018-01-23T23:35:25.464Z", "fromAddress"=>"52c7ec313568730cbadff4cb7b59dd5696d9917393f07ba92d74a6b3d1cc93a4057dd6ab03ddde6d938180ff", "toAddress"=>'thisIsTheHouseAccount', "amount"=>"1.06"},
-      {"timestamp"=>"2018-01-23T23:35:25.464Z", "fromAddress"=>"52c7ec313568730cbadff4cb7b59dd5696d9917393f07ba92d74a6b3d1cc93a4057dd6ab03ddde6d938180ff", "toAddress"=>'thisIsTheHouseAccount', "amount"=>"1.08"}
+      {"timestamp"=>"2018-01-23T23:35:25.464Z", "fromAddress"=>addrAandB, "toAddress"=>'thisIsTheHouseAccount', "amount"=>"1.06"},
+      {"timestamp"=>"2018-01-23T23:35:25.464Z", "fromAddress"=>addrAandB, "toAddress"=>'thisIsTheHouseAccount', "amount"=>"1.08"}
     ]
   end
 
@@ -63,15 +39,15 @@ class DataHelper
   def self.distributions_to_mixed
     # added house transactions sent to mixed addresses manually as an edge case.
     [
-      {"timestamp"=>"2018-01-23T23:35:25.464Z", "fromAddress"=>'thisIsTheHouseAccount', "toAddress"=>"52c7ec313568730cbadff4cb7b59dd5696d9917393f07ba92d74a6b3d1cc93a4057dd6ab03ddde6d938180ff", "amount"=>"1.02"},
-      {"timestamp"=>"2018-01-23T23:35:25.464Z", "fromAddress"=>'thisIsTheHouseAccount', "toAddress"=>"52c7ec313568730cbadff4cb7b59dd5696d9917393f07ba92d74a6b3d1cc93a4057dd6ab03ddde6d938180ff", "amount"=>"1.04"}
+      {"timestamp"=>"2018-01-23T23:35:25.464Z", "fromAddress"=>'thisIsTheHouseAccount', "toAddress"=>addrAandB, "amount"=>"1.02"},
+      {"timestamp"=>"2018-01-23T23:35:25.464Z", "fromAddress"=>'thisIsTheHouseAccount', "toAddress"=>addrAandB, "amount"=>"1.04"}
     ]
   end
 
   def self.distributions_to_address
     [
-      {"timestamp"=>"2018-01-23T23:35:25.464Z", "fromAddress"=>'thisIsTheHouseAccount', "toAddress"=>"address1", "amount"=>"1.02"},
-      {"timestamp"=>"2018-01-23T23:35:25.464Z", "fromAddress"=>'thisIsTheHouseAccount', "toAddress"=>"address2", "amount"=>"1.02"}
+      {"timestamp"=>"2018-01-23T23:35:25.464Z", "fromAddress"=>'thisIsTheHouseAccount', "toAddress"=>'addressA', "amount"=>"1.02"},
+      {"timestamp"=>"2018-01-23T23:35:25.464Z", "fromAddress"=>'thisIsTheHouseAccount', "toAddress"=>'addressB', "amount"=>"1.02"}
     ]
   end
 
@@ -85,11 +61,24 @@ class DataHelper
   def self.global_transactions
     [
       {"timestamp"=>"2018-01-23T23:35:03.792Z", "fromAddress"=>"Alice", "toAddress"=>"Bob", "amount"=>"20"},
-      {"timestamp"=>"2018-01-23T23:35:25.464Z", "fromAddress"=>"Alice", "toAddress"=>"Bob", "amount"=>"22"}
+      {"timestamp"=>"2018-01-23T23:35:25.464Z", "fromAddress"=>"Alice", "toAddress"=>"Bob", "amount"=>"22"},
+      {"timestamp"=>"2018-01-18T16:53:16.747Z", "toAddress"=>"52c7ec313568730cbaeaf8c67a68dc4495fb1cafda7d0571f4a5d3faf27753fc0e3039", "amount"=>"10"},
+      {"timestamp"=>"2018-01-18T16:53:27.572Z", "fromAddress"=>"Alice", "toAddress"=>"52c7ec313568730cbaeaf8c67a68dc4495fb1cafda7d0571f4a5d3faf27753fc0e3039", "amount"=>"12"},
+      {"timestamp"=>"2018-01-18T16:53:38.853Z", "fromAddress"=>"Bob", "toAddress"=>"52c7ec313568730cbaeaf8c67a68dc4495fb1cafda7d0571f4a5d3faf27753fc0e3039", "amount"=>"14"}
     ]
   end
 
   def self.identified_transactions
     transaction_history - global_transactions - contributions - distributions_to_address
+  end
+
+  private
+
+  def self.addrAandB
+    "eyJtZXNzYWdlIjoiYmFkNzkyZTY0N2JmNDZjOTc2NDc5NWY5NTIzMTYyYTQxZjhiYTllYTQ4Yjk3ODhhYzVjN2MwM2U5NDMyY2IwZDBlMmNkM2ZmOGU5NWFiNjJkZWMwNmFjMCIsImlkZW50aWZpZXIiOiJUaGlzVHJhbnNhY3Rpb25Jc09uZU9mT3VycyIsIml2IjoiMDllYzYyMDAyZTlmN2UyYTgwMmNiZWIxYjk4YTEzZjgifQ=="
+  end
+
+  def self.addr1
+    "eyJtZXNzYWdlIjoiYzMwY2VjNjg1MWU5YzIxYzc4NjRhMTE2YjZiMjRjNzBhMDk0M2I3MzA0ODcxYTBjN2Q5MzAyYzM0MzYyZDAyMWNmMTE4M2ExYmJhNmNiNzRmOTM5OWFlZiIsImlkZW50aWZpZXIiOiJUaGlzVHJhbnNhY3Rpb25Jc09uZU9mT3VycyIsIml2IjoiZTZhYTcyZTVjN2EyNGY4NGQwZTY4ZWJlYTY4YzlkN2EifQ=="
   end
 end

@@ -1,4 +1,5 @@
 require 'openssl'
+require 'base64'
 
 class Mixer
   KEY = "WeCanTalkAboutBetterWaysToStoreThis"
@@ -11,7 +12,7 @@ class Mixer
     # AES comes with different key bit lengths: 128, 192, 256. The higher the
     # key length is, the harder it is to brute force it. Let's then set the cipher object
     # to encrypt mode.
-    cipher = OpenSSL::Cipher::Cipher.new('AES-256-CFB').encrypt
+    cipher = OpenSSL::Cipher.new('AES-256-CFB').encrypt
 
     # The initialization vector should be a random number.
     # After generation it can be transmitted openly and does not need to be kept
@@ -33,30 +34,36 @@ class Mixer
     # the encrypted message. This is needed if encrypted data is transmitted so
     # the decrypter knows when the end of the message is reached.
     encrypted_message = cipher.update(address_string) + cipher.final
-    binding.pry
+
     payload = {
       message: encrypted_message.unpack('H*')[0],
       identifier: HouseDistributor::IDENTIFIER,
-      iv: iv
+      iv: iv.unpack('H*')[0]
     }
 
-    encode_payload(payload)
+    Base64.encode64(payload.to_json)
   end
 
   def self.decrypt(address_string)
-    binding.pry
-    # set cipher to decrypt mode.
-    cipher = OpenSSL::Cipher::Cipher.new('AES-256-CFB').decrypt
+    begin
+      # check to see if transaction is one of ours by attempting to parse the
+      # encoded string. If there's an error we return false from the rescue clause.
+      identifier = JSON.parse(Base64.decode64(address_string))['identifier']
+      message = JSON.parse(Base64.decode64(address_string))['message']
+      iv = JSON.parse(Base64.decode64(address_string))['iv']
 
-    # This line turns our KEY into a 256 bit hash which we can then use as a
-    # key for our AES decryption.
-    cipher.key = Digest::SHA256.digest(KEY)
-    binding.pry
-    s = [address_string].pack("H*").unpack("C*").pack("c*")
-    (cipher.update(s) + cipher.final).split('|')
-  end
+      # set cipher to decrypt mode.
+      cipher = OpenSSL::Cipher.new('AES-256-CFB').decrypt
 
-  def encrypt_payload(payload)
+      # This line turns our KEY into a 256 bit hash which we can then use as a
+      # key for our AES decryption. We also set out IV.
+      cipher.key = Digest::SHA256.digest(KEY)
+      cipher.iv = [iv].pack('H*')
 
+      s = [message].pack("H*").unpack("C*").pack("c*")
+      (cipher.update(s) + cipher.final).split('|')
+    rescue JSON::ParserError => e
+      return false
+    end
   end
 end
