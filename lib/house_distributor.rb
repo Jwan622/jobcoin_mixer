@@ -1,5 +1,5 @@
 class HouseDistributor < Distributor
-  AGGREGATE_ACCOUNT = 'thisIsTheHouseAccount1'
+  AGGREGATE_ACCOUNT = 'thisIsTheHouseAccount3'
   IDENTIFIER = 'ThisTransactionIsOneOfOurs'
 
   def make_transfers

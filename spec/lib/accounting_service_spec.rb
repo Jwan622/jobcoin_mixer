@@ -5,21 +5,21 @@ RSpec.describe AccountingService do
 
   let(:origin_account) { DataHelper::AGGREGATE_ACCOUNT }
   let(:contributions) do
-    { 'address1' => 1.07, 'address2' => 1.07 }
+    { 'addressA' => BigDecimal.new('1.07'), 'addressB' => BigDecimal.new('1.07') }
   end
 
   let(:distributions) do
     {
-      'address1' => 1.02,
-      'address2' => 1.02,
-      "52c7ec313568730cbadff4cb7b59dd5696d9917393f07ba92d74a6b3d1cc93a4057dd6ab03ddde6d938180ff" => 2.06
+      'addressA' => 0.102e1,
+      'addressB' => 0.102e1,
+      "eyJtZXNzYWdlIjoiYmFkNzkyZTY0N2JmNDZjOTc2NDc5NWY5NTIzMTYyYTQxZjhiYTllYTQ4Yjk3ODhhYzVjN2MwM2U5NDMyY2IwZDBlMmNkM2ZmOGU5NWFiNjJkZWMwNmFjMCIsImlkZW50aWZpZXIiOiJUaGlzVHJhbnNhY3Rpb25Jc09uZU9mT3VycyIsIml2IjoiMDllYzYyMDAyZTlmN2UyYTgwMmNiZWIxYjk4YTEzZjgifQ==" => 0.206e1
     }
   end
 
   let(:liabilities) do
     {
-      'address1' => 0.05,
-      'address2' => 0.05,
+      'addressA' => 0.05,
+      'addressB' => 0.05,
     }
   end
 

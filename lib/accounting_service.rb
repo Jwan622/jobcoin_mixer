@@ -27,7 +27,7 @@ class AccountingService
     end
 
     contributions.reduce(Hash.new(0)) do |balances, cont|
-      distribution_addresses = Mixer.decrypt(cont['fromAddress']).tap(&:pop)
+      distribution_addresses = Mixer.decrypt(cont['fromAddress']).tap(&:pop) if Mixer.decrypt(cont['fromAddress'])
       amount_to_distribute = (BigDecimal.new(cont['amount'])/BigDecimal.new(distribution_addresses.count.to_s))
 
       distribution_addresses.each do |addr|
